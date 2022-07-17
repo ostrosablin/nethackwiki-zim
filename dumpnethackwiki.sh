@@ -1,9 +1,6 @@
 #!/bin/bash
-
 docker volume create nethackwikizim
-docker run --name=redis --rm -d redis
-docker run --rm -v=nethackwikizim:/out --link=redis:redis --name=mwoffliner openzim/mwoffliner mwoffliner --redis="redis://redis" --verbose --mwUrl=https://nethackwiki.com/ --adminEmail=tmp6154@yandex.ru --outputDirectory=/out || { docker stop redis; exit 1 }
-docker stop redis
+docker run --rm -v=nethackwikizim:/out --name=mwoffliner openzim/mwoffliner mwoffliner --verbose --mwUrl=https://nethackwiki.com/ --adminEmail=example@example.com --outputDirectory=/out
 docker container create --name temp -v nethackwikizim:/out busybox
 docker cp temp:/out .
 docker rm temp
